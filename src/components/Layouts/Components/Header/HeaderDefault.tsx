@@ -1,10 +1,10 @@
-import { Fragment } from 'react';
+import HeaderWrapper from '.';
 
 function HeaderDefault() {
 	return (
-		<Fragment>
+		<HeaderWrapper>
 			<h1>Hello header default</h1>
-		</Fragment>
+		</HeaderWrapper>
 	);
 }
 
