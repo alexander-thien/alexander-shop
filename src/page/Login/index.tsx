@@ -7,18 +7,33 @@ import { Loader } from '@progress/kendo-react-indicators';
 import { Avatar } from '@progress/kendo-react-layout';
 import { EmailInput, emailValidator } from '../../components/EmailValidator';
 import { InputCustom, PassValidate } from '../../components/InputValidator';
-import { useUserStore } from '../../store/UserStore';
+import { UserItem, useUserStore } from '../../store/UserStore';
+import { useNotificationStore } from '../../store/NotificationStore';
 
 function Login() {
 	let navigate = useNavigate();
 	const { userLogin } = useUserStore();
 	const [isLoading, setIsLoading] = React.useState(false);
 
+	const { callNotification } = useNotificationStore();
+
 	const handleSubmit = async (dataItem: any) => {
 		setIsLoading(true);
-		await userLogin(dataItem.email, dataItem.pass);
+		const isLogin: UserItem | false = await userLogin(
+			dataItem.email,
+			dataItem.pass
+		);
+
+		if (isLogin) {
+			callNotification({
+				type: 'success',
+				message: 'Login Successfully',
+			});
+			navigate('/');
+		} else {
+			callNotification({ type: 'error', message: 'Accout not exist' });
+		}
 		setIsLoading(false);
-		navigate('/');
 	};
 
 	const GotoRegister = () => {
@@ -28,7 +43,7 @@ function Login() {
 	return (
 		<div className='w-[100%] h-[100%] flex justify-center items-center'>
 			<div className='flex flex-col items-center  w-96 min-h-[600px]'>
-				<h1 className='font-extrabold text-[26px]'>Log in</h1>
+				<h1 className='font-extrabold text-[26px]'>Login</h1>
 
 				<Form
 					onSubmit={handleSubmit}
@@ -56,6 +71,7 @@ function Login() {
 								themeColor={'info'}
 								type={'submit'}
 								className='p-3 mt-5 w-[50%] bg-[#332e54]'
+								disabled={isLoading}
 							>
 								{isLoading ? (
 									<Loader
