@@ -1,29 +1,10 @@
 import * as React from 'react';
 import { Form, Field, FormElement } from '@progress/kendo-react-form';
-import { Error } from '@progress/kendo-react-labels';
-import { Input } from '@progress/kendo-react-inputs';
 import { Button } from '@progress/kendo-react-buttons';
-import BorderJumpComponent from '../../components/BorderJumpComponent';
 import { useNavigate } from 'react-router-dom';
 
 import { Avatar } from '@progress/kendo-react-layout';
-const emailRegex = new RegExp(/\S+@\S+\.\S+/);
-
-const emailValidator = (value: string) => {
-	return emailRegex.test(value) ? '' : 'Please enter a correct email.';
-};
-
-const EmailInput = (fieldRenderProps: any) => {
-	const { validationMessage, visited, ...others } = fieldRenderProps;
-	return (
-		<div>
-			<Input {...others} className={'text-[14px] h-14'} />
-			{visited && validationMessage && (
-				<Error className={'font-black'}>{validationMessage}</Error>
-			)}
-		</div>
-	);
-};
+import { EmailInput, emailValidator } from '../../components/EmailValidator';
 
 function Login() {
 	let navigate = useNavigate();
@@ -65,11 +46,9 @@ function Login() {
 					)}
 				/>
 
-				<BorderJumpComponent
-					text='Login with option'
-					style={{ marginTop: '50px' }}
-				/>
-
+				<div className='w-full mt-11 border-b-[1px] text-center leading-[0.1rem]'>
+					<span className='p-2 bg-[#f8f8fa]'>Or sign in with </span>
+				</div>
 				<div className='flex justify-around items-center h-20 w-full mt-11 border-b-[1px] pb-4'>
 					<Avatar type='text' themeColor={'info'} size='large'>
 						<span>FB</span>
