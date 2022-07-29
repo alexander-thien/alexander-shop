@@ -2,9 +2,17 @@ import { Input } from '@progress/kendo-react-inputs';
 import { Error } from '@progress/kendo-react-labels';
 
 const textRegex = new RegExp(/^([^0-9]*)$/);
+const passRegex = new RegExp(
+	'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})'
+);
 const InputValidate = (value: string) => {
 	if (value === undefined) return 'Fiel invalid...';
 	return textRegex.test(value) ? '' : 'Fiel invalid...';
+};
+
+const PassValidate = (value: string) => {
+	if (value === undefined) return 'Fiel invalid...';
+	return passRegex.test(value) ? '' : 'Fiel invalid...';
 };
 
 const InputCustom = (fieldRenderProps: any) => {
@@ -19,4 +27,4 @@ const InputCustom = (fieldRenderProps: any) => {
 		</div>
 	);
 };
-export { InputValidate, InputCustom };
+export { InputValidate, InputCustom, PassValidate };

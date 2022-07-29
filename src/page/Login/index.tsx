@@ -2,15 +2,23 @@ import * as React from 'react';
 import { Form, Field, FormElement } from '@progress/kendo-react-form';
 import { Button } from '@progress/kendo-react-buttons';
 import { useNavigate } from 'react-router-dom';
+import { Loader } from '@progress/kendo-react-indicators';
 
 import { Avatar } from '@progress/kendo-react-layout';
 import { EmailInput, emailValidator } from '../../components/EmailValidator';
+import { InputCustom, PassValidate } from '../../components/InputValidator';
+import { useUserStore } from '../../store/UserStore';
 
 function Login() {
 	let navigate = useNavigate();
+	const { userLogin } = useUserStore();
+	const [isLoading, setIsLoading] = React.useState(false);
 
-	const handleSubmit = (dataItem: any) => {
-		console.log('submit run');
+	const handleSubmit = async (dataItem: any) => {
+		setIsLoading(true);
+		await userLogin(dataItem.email, dataItem.pass);
+		setIsLoading(false);
+		navigate('/');
 	};
 
 	const GotoRegister = () => {
@@ -34,13 +42,30 @@ function Login() {
 									label={'Email'}
 									validator={emailValidator}
 								/>
+								<div className='mt-3'>
+									<Field
+										name={'pass'}
+										type={'password'}
+										component={InputCustom}
+										label={'Password'}
+										validator={PassValidate}
+									/>
+								</div>
 							</div>
 							<Button
 								themeColor={'info'}
 								type={'submit'}
 								className='p-3 mt-5 w-[50%] bg-[#332e54]'
 							>
-								Login
+								{isLoading ? (
+									<Loader
+										size='medium'
+										type={'pulsing'}
+										themeColor={'light'}
+									/>
+								) : (
+									"Let's Go"
+								)}
 							</Button>
 						</FormElement>
 					)}
