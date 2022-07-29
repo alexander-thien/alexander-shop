@@ -1,35 +1,24 @@
 import * as React from 'react';
 import { Form, Field, FormElement } from '@progress/kendo-react-form';
-import { Error } from '@progress/kendo-react-labels';
-import { Input } from '@progress/kendo-react-inputs';
 import { Button } from '@progress/kendo-react-buttons';
-import BorderJumpComponent from '../../components/BorderJumpComponent';
 import { useNavigate } from 'react-router-dom';
+import { Loader } from '@progress/kendo-react-indicators';
 
 import { Avatar } from '@progress/kendo-react-layout';
-const emailRegex = new RegExp(/\S+@\S+\.\S+/);
-
-const emailValidator = (value: string) => {
-	return emailRegex.test(value) ? '' : 'Please enter a correct email.';
-};
-
-const EmailInput = (fieldRenderProps: any) => {
-	const { validationMessage, visited, ...others } = fieldRenderProps;
-	return (
-		<div>
-			<Input {...others} className={'text-[14px] h-14'} />
-			{visited && validationMessage && (
-				<Error className={'font-black'}>{validationMessage}</Error>
-			)}
-		</div>
-	);
-};
+import { EmailInput, emailValidator } from '../../components/EmailValidator';
+import { InputCustom, PassValidate } from '../../components/InputValidator';
+import { useUserStore } from '../../store/UserStore';
 
 function Login() {
 	let navigate = useNavigate();
+	const { userLogin } = useUserStore();
+	const [isLoading, setIsLoading] = React.useState(false);
 
-	const handleSubmit = (dataItem: any) => {
-		console.log('submit run');
+	const handleSubmit = async (dataItem: any) => {
+		setIsLoading(true);
+		await userLogin(dataItem.email, dataItem.pass);
+		setIsLoading(false);
+		navigate('/');
 	};
 
 	const GotoRegister = () => {
@@ -53,23 +42,38 @@ function Login() {
 									label={'Email'}
 									validator={emailValidator}
 								/>
+								<div className='mt-3'>
+									<Field
+										name={'pass'}
+										type={'password'}
+										component={InputCustom}
+										label={'Password'}
+										validator={PassValidate}
+									/>
+								</div>
 							</div>
 							<Button
 								themeColor={'info'}
 								type={'submit'}
 								className='p-3 mt-5 w-[50%] bg-[#332e54]'
 							>
-								Login
+								{isLoading ? (
+									<Loader
+										size='medium'
+										type={'pulsing'}
+										themeColor={'light'}
+									/>
+								) : (
+									"Let's Go"
+								)}
 							</Button>
 						</FormElement>
 					)}
 				/>
 
-				<BorderJumpComponent
-					text='Login with option'
-					style={{ marginTop: '50px' }}
-				/>
-
+				<div className='w-full mt-11 border-b-[1px] text-center leading-[0.1rem]'>
+					<span className='p-2 bg-[#f8f8fa]'>Or sign in with </span>
+				</div>
 				<div className='flex justify-around items-center h-20 w-full mt-11 border-b-[1px] pb-4'>
 					<Avatar type='text' themeColor={'info'} size='large'>
 						<span>FB</span>
