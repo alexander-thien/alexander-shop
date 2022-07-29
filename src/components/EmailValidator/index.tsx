@@ -8,7 +8,6 @@ const emailValidator = (value: string) => {
 };
 const EmailInput = (fieldRenderProps: any) => {
 	const { validationMessage, visited, ...others } = fieldRenderProps;
-	console.log(fieldRenderProps);
 
 	return (
 		<div>

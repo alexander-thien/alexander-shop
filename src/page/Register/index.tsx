@@ -1,11 +1,35 @@
 import { Form, Field, FormElement } from '@progress/kendo-react-form';
 import { Button } from '@progress/kendo-react-buttons';
 import { EmailInput, emailValidator } from '../../components/EmailValidator';
-import { InputCustom, InputValidate } from '../../components/InputValidator';
+import { Loader } from '@progress/kendo-react-indicators';
+import {
+	InputCustom,
+	InputValidate,
+	PassValidate,
+} from '../../components/InputValidator';
+import { useUserStore } from '../../store/UserStore';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
-	const handleSubmit = (dataItem: any) => {
-		console.log(dataItem);
+	const { addUser } = useUserStore();
+
+	const [isLoading, setIsLoading] = useState(false);
+
+	let navigate = useNavigate();
+
+	const handleSubmit = async (dataItem: any) => {
+		setIsLoading(true);
+		const a = await addUser(
+			dataItem.email,
+			dataItem.pass,
+			dataItem.firstName,
+			dataItem.lastName
+		);
+		if (a) {
+			setIsLoading(false);
+			navigate('/login');
+		}
 	};
 
 	return (
@@ -32,10 +56,10 @@ function Register() {
 							<div className='mt-3'>
 								<Field
 									name={'pass'}
-									type={'text'}
+									type={'password'}
 									component={InputCustom}
 									label={'Password'}
-									validator={InputValidate}
+									validator={PassValidate}
 								/>
 							</div>
 							<div className='mt-3'>
@@ -61,7 +85,15 @@ function Register() {
 								type={'submit'}
 								className='p-3 mt-5 w-[50%] bg-[#332e54]'
 							>
-								Let's Go
+								{isLoading ? (
+									<Loader
+										size='medium'
+										type={'pulsing'}
+										themeColor={'light'}
+									/>
+								) : (
+									"Let's Go"
+								)}
 							</Button>
 						</FormElement>
 					)}
