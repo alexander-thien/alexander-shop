@@ -10,6 +10,7 @@ import {
 import { useUserStore } from '../../store/UserStore';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useNotificationStore } from '../../store/NotificationStore';
 
 function Register() {
 	const { addUser } = useUserStore();
@@ -17,19 +18,22 @@ function Register() {
 	const [isLoading, setIsLoading] = useState(false);
 
 	let navigate = useNavigate();
+	const { callNotification } = useNotificationStore();
 
 	const handleSubmit = async (dataItem: any) => {
 		setIsLoading(true);
-		const a = await addUser(
+		await addUser(
 			dataItem.email,
 			dataItem.pass,
 			dataItem.firstName,
 			dataItem.lastName
 		);
-		if (a) {
-			setIsLoading(false);
-			navigate('/login');
-		}
+		setIsLoading(false);
+		callNotification({
+			type: 'success',
+			message: 'Register Successfully',
+		});
+		navigate('/login');
 	};
 
 	return (
@@ -84,6 +88,7 @@ function Register() {
 								themeColor={'info'}
 								type={'submit'}
 								className='p-3 mt-5 w-[50%] bg-[#332e54]'
+								disabled={isLoading}
 							>
 								{isLoading ? (
 									<Loader

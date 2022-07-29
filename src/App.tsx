@@ -3,10 +3,12 @@ import { DefaultLayout } from './components/Layouts';
 import { Fragment } from 'react';
 import { publicRoutes } from './routes';
 import { Props } from './components/Types';
+import NotificationComponent from './components/Notification';
 function App() {
 	return (
 		<Router>
 			<div className='App'>
+				<NotificationComponent />
 				<Routes>
 					{publicRoutes.map((route, index) => {
 						const Page: JSX.Element = route.component;
