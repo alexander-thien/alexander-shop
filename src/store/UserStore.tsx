@@ -11,7 +11,7 @@ export interface UserItem {
 
 class UserStore {
 	users: UserItem[] = [];
-	person: UserItem | null = null;
+	person: UserItem | false = false;
 
 	constructor() {
 		makeAutoObservable(this);
@@ -50,6 +50,10 @@ class UserStore {
 			usersList.find(
 				(user) => user.email === email && user.password === password
 			) || false;
+		if (login) {
+			this.person = login;
+		}
+
 		await this.timeout(2000);
 		return login;
 	};

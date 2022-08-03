@@ -1,20 +1,16 @@
 import { Link } from 'react-router-dom';
+import { useUserStore } from '../../../../store/UserStore';
+import CartComponent from '../../../Cart';
 
 function Nav() {
+	const { person } = useUserStore();
+
 	return (
-		<div className='w-[50%] flex items-center justify-between'>
-			<Link to='/product'>
-				<p className='text-[18px] font-medium'>PRODUCT</p>
+		<div className='w-[15%] flex items-center justify-between'>
+			<Link to={`${person ? '/person' : '/login'}`}>
+				<p className='text-[16px] font-medium'>ACCOUNT</p>
 			</Link>
-			<Link to='/favorite'>
-				<p className='text-[18px] font-medium'>FAVORITE</p>
-			</Link>
-			<Link to='/person'>
-				<p className='text-[18px] font-medium'>ACCOUNT</p>
-			</Link>
-			<Link to='/cart'>
-				<p className='text-[18px] font-medium'>CART</p>
-			</Link>
+			<CartComponent />
 		</div>
 	);
 }

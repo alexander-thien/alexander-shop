@@ -10,9 +10,31 @@
 
 body {
 	font-family: 'Montserrat', sans-serif;
+	color: #332e54;
 }
 
 .register_back_ground {
 	background: url('https://assets.curology.com/media/4a948424a825babbc1949524bcec88af.svg');
 	width: 50%;
+}
+ul {
+	list-style: none;
+}
+
+ul li:before {
+	content: '✓';
+	padding-right: 10px;
+}
+
+.border-custom {
+	margin-top: 1.5rem;
+	border-bottom: 2px solid rgb(51, 46, 84);
+	width: 100%;
+}
+
+.box-shadow-1 {
+	box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+	&:hover {
+		box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+	}
 }

@@ -1,9 +1,13 @@
-import { Link } from 'react-router-dom';
+import SectionList from './SectionList';
+import SectionListProduct from './SectionListProduct';
+import SectionOnlyOneProduct from './SectionOnlyOneProduct';
 
 function Home() {
 	return (
 		<div>
-			<Link to={'/login'}>Go to Login</Link>
+			<SectionOnlyOneProduct />
+			<SectionList />
+			<SectionListProduct />
 		</div>
 	);
 }
