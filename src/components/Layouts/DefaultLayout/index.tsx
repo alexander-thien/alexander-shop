@@ -1,14 +1,14 @@
 import { Props } from '../../Types';
+import Footer from '../Components/Footer';
 import HeaderDefault from '../Components/Header/HeaderDefault';
 
 const DefaultLayout: React.FC<Props> = ({ children }) => {
 	return (
-		<div>
+		<>
 			<HeaderDefault />
-			<div className='w-[100%] h-[1000px] mx-auto pt-[60px]'>
-				{children}
-			</div>
-		</div>
+			<div className='w-[100%] mx-auto pt-[60px]'>{children}</div>
+			<Footer />
+		</>
 	);
 };
 
