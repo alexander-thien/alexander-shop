@@ -7,7 +7,7 @@ function CardProduct(product: any) {
 	const { addToCart } = useProductStore();
 
 	return (
-		<div className='w-[30%] min-h-[400px] box-shadow-1 p-3 mr-3 mt-3'>
+		<div className='w-[30%] min-h-[400px] box-shadow-1 p-3 mt-3'>
 			<div className='min-h-[200px] w-full overflow-hidden '>
 				<img
 					src={productItem.photoURL}
