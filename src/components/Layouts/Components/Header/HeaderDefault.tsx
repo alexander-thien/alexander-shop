@@ -10,7 +10,6 @@ function HeaderDefault() {
 					<h1 className='font-extrabold text-xl'>AlexanderShop</h1>
 				</Link>
 				<Nav />
-				<h1>Login</h1>
 			</div>
 		</HeaderWrapper>
 	);
