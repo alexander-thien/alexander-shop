@@ -91,6 +91,7 @@ const SectionList = () => {
 						<Avatar
 							style={{ width: '100px', height: '100px' }}
 							themeColor='light'
+							// eslint-disable-next-line react/jsx-no-comment-textnodes
 						>
 							<img
 								src={product.img}

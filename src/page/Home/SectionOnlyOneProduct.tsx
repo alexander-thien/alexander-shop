@@ -1,25 +1,36 @@
 import { Button } from '@progress/kendo-react-buttons';
+import { useEffect, useState } from 'react';
+import { productItem, useProductStore } from '../../store/ProductStore';
 
-function SectionOnlyOneProduct() {
+function SectionOnlyOneProduct(props: productItem | any) {
+	const { addToCart } = useProductStore();
+
+	const [data, setData] = useState({
+		id: 0,
+		name: 'Custom FormulaR for acne',
+		price: 450,
+		photoURL: 'http://localhost:3000/img/customFormula@2x.webp',
+		content:
+			"Sudden acne spot? We've got skin emergencies covered with fast-acting hydrocolloid patches that absorb pus and oil. Plus, they're low profile to help spots heal—whenever, wherever.",
+	});
+
+	useEffect(() => {
+		if (props.product !== undefined) {
+			setData({ ...props.product });
+		}
+	}, [props.product]);
+
 	return (
 		<div className='w-[100%] h-[800px] bg-[#efeef5] pt-8'>
 			<div className='w-[90%] mx-auto text-center flex justify-center'>
 				<div className=''>
-					<img
-						src='https://curology.com/static/9cfb3f1261e6d0309f10ddeb76bfeb46/1467b/customFormula%402x.jpg'
-						alt=''
-					/>
+					<img src={data.photoURL} alt='' />
 				</div>
 				<div className='pt-5 text-start w-[35%]'>
-					<p className='text-[38px] font-semibold '>
-						Custom Formula <sup>RX </sup> <br /> for acne
-					</p>
+					<p className='text-[38px] font-semibold '>{data.name}</p>
 					<p className='mt-4'>
-						Help clear your skin with a personalized, Rx acne
-						cream—prescribed for you by a dermatology provider. Your
-						Curology Custom Formula is made with acne-busting
-						ingredients picked for you, which can include tretinoin,
-						azelaic acid, clindamycin, and more.
+						{data.content ||
+							'Help clear your skin with a personalized, Rx acne cream—prescribed for you by a dermatology provider. Your Curology Custom Formula is made with acne-busting ingredients picked for you, which can include tretinoin, azelaic acid, clindamycin, and more.'}
 					</p>
 					<p className='mt-5 text-[22px] font-semibold'>
 						Proven to tackle
@@ -56,6 +67,7 @@ function SectionOnlyOneProduct() {
 							fillMode={'outline'}
 							themeColor='inverse'
 							className='px-20 py-6 font-semibold text-[18px]'
+							onClick={() => addToCart(data)}
 						>
 							Add to cart
 						</Button>
