@@ -6,7 +6,7 @@ import {
 } from 'react-icons/ai';
 function Footer() {
 	return (
-		<div className='w-full h-[400px] bg-[#332E54] py-10 text-white mt-[100px]'>
+		<div className='w-full h-[400px] bg-[#332E54] py-10 text-white'>
 			<div className='w-[90%] h-[200px]  mx-auto flex'>
 				<div className='w-[30%]'>Follow @alexander-shop</div>
 				<div className='ml-5 flex w-[30%] flex-col h-[100%] justify-between border-lelf-custom '>

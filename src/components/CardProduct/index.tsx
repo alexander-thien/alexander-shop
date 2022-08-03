@@ -1,10 +1,16 @@
 import { Button } from '@progress/kendo-react-buttons';
+import { useNavigate } from 'react-router-dom';
 import { useProductStore } from '../../store/ProductStore';
 
 function CardProduct(product: any) {
 	const productItem = product.product;
+	const navigate = useNavigate();
 
 	const { addToCart } = useProductStore();
+
+	const gotoProduct = () => {
+		navigate(`/product/${productItem.id}`);
+	};
 
 	return (
 		<div className='w-[30%] min-h-[400px] box-shadow-1 p-3 mt-3'>
@@ -16,7 +22,12 @@ function CardProduct(product: any) {
 				/>
 			</div>
 			<div className='text-[18px]  mt-3 '>
-				<h1 className='font-semibold'>{productItem.name}</h1>
+				<h1
+					className='font-semibold cursor-pointer hover:underline'
+					onClick={gotoProduct}
+				>
+					{productItem.name}
+				</h1>
 				<h1 className='mt-6'>${productItem.price}</h1>
 			</div>
 
