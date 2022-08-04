@@ -1,15 +1,18 @@
 // type
-import { OnlyHeader } from '../components/Layouts';
 import Loading from '../components/Loading';
 import { Props } from '../components/Types';
 import Product from '../page/Details/Product';
 
 // Layouts
-
+import { OnlyHeader } from '../components/Layouts';
+import ManagerLayouts from '../components/Layouts/ManagerLayouts';
 // Pages
 import Home from '../page/Home';
 import Login from '../page/Login';
+import ProductManager from '../page/Manager/Products';
 import Register from '../page/Register';
+import { Cart } from '../page/Cart';
+
 interface RouteItem {
 	path: string;
 	component: JSX.Element;
@@ -21,6 +24,16 @@ const publicRoutes: RouteItem[] = [
 	{ path: '/product/:id', component: <Product /> },
 	{ path: '/login', component: <Login />, layout: OnlyHeader },
 	{ path: '/register', component: <Register />, layout: OnlyHeader },
+	{
+		path: '/manager/products',
+		component: <ProductManager />,
+		layout: ManagerLayouts,
+	},
+	{
+		path: '/cart',
+		component: <Cart />,
+		layout: ManagerLayouts,
+	},
 	{ path: '/loading', component: <Loading />, layout: OnlyHeader },
 ];
 

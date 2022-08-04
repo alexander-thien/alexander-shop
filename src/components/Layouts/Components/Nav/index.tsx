@@ -6,11 +6,14 @@ function Nav() {
 	const { person } = useUserStore();
 
 	return (
-		<div className='w-[15%] flex items-center justify-between'>
+		<div className='w-[20%] flex items-center justify-between'>
 			<Link to={`${person ? '/person' : '/login'}`}>
 				<p className='text-[16px] font-medium'>ACCOUNT</p>
 			</Link>
-			<CartComponent />
+			<Link to='/manager/products'>MANAGER</Link>
+			<Link to='/cart'>
+				<CartComponent />
+			</Link>
 		</div>
 	);
 }
