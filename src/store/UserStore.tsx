@@ -3,15 +3,27 @@ import { createContext, useContext } from 'react';
 
 export interface UserItem {
 	id: number;
-	firstName: String;
-	lastName: String;
+	firstName: String | string;
+	lastName: String | string;
 	email: String;
 	password: String;
+	auth?: 'true' | 'false';
+	phone?: String;
+	address?: String;
 }
 
 class UserStore {
 	users: UserItem[] = [];
-	person: UserItem | false = false;
+	person: UserItem = {
+		id: 0,
+		firstName: '',
+		lastName: '',
+		email: '',
+		password: '',
+		auth: 'false',
+		address: '',
+		phone: '',
+	};
 
 	constructor() {
 		makeAutoObservable(this);
@@ -19,6 +31,10 @@ class UserStore {
 
 	getUsers = () => {
 		return toJS(this.users);
+	};
+
+	getPerson = () => {
+		return toJS(this.person);
 	};
 
 	timeout = (ms: number) => {
@@ -52,10 +68,15 @@ class UserStore {
 			) || false;
 		if (login) {
 			this.person = login;
+			this.person.auth = 'true';
 		}
 
 		await this.timeout(2000);
 		return login;
+	};
+
+	userUpdate = (newUser: UserItem) => {
+		this.person = { ...newUser };
 	};
 }
 

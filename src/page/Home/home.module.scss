@@ -1,0 +1,13 @@
+.wraper {
+	@apply w-[90%] h-[700px] mx-auto mb-[100px];
+}
+.title {
+	@apply text-[38px] w-full font-semibold;
+}
+.product_wrapper {
+	@apply flex flex-wrap mt-6 justify-between;
+}
+
+.logo {
+	color: red;
+}

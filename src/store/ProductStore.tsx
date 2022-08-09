@@ -7,12 +7,14 @@ export interface productItem {
 	price: number;
 	photoURL: string;
 	content?: String;
+	type?: 'perfume 1' | 'perfume 2';
 }
 
 class ProductStore {
 	products: productItem[] = [
 		{
 			id: 1,
+			type: 'perfume 2',
 			name: 'Emergency spot patch for acne',
 			price: 300,
 			photoURL: 'http://localhost:3000/img/emergencySpotPatch@2x.webp',
@@ -21,6 +23,7 @@ class ProductStore {
 		},
 		{
 			id: 2,
+			type: 'perfume 1',
 			name: 'The cleanser and moisturizer set',
 			price: 400,
 			photoURL: 'http://localhost:3000/img/cleanserMoisturizer@2x.webp',
@@ -29,6 +32,7 @@ class ProductStore {
 		},
 		{
 			id: 3,
+			type: 'perfume 2',
 			name: 'Acne body wash',
 			price: 500,
 			photoURL: 'http://localhost:3000/img/acneBodyWash@2x.webp',
@@ -46,6 +50,7 @@ class ProductStore {
 	getProducts = () => {
 		return toJS(this.products);
 	};
+
 	getProductsFromCart = () => {
 		return toJS(this.carts);
 	};
@@ -55,6 +60,9 @@ class ProductStore {
 		return product;
 	};
 
+	removeCart = (index: number) => {
+		this.carts.splice(index, 1);
+	};
 	addToCart = (product: productItem) => {
 		this.carts.push(product);
 	};
