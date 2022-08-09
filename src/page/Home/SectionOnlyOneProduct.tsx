@@ -1,13 +1,13 @@
 import { Button } from '@progress/kendo-react-buttons';
 import { useEffect, useState } from 'react';
 import { productItem, useProductStore } from '../../store/ProductStore';
-
 function SectionOnlyOneProduct(props: productItem | any) {
 	const { addToCart } = useProductStore();
 
-	const [data, setData] = useState({
+	const [data, setData] = useState<productItem>({
 		id: 0,
 		name: 'Custom FormulaR for acne',
+		type: 'perfume 1',
 		price: 450,
 		photoURL: 'http://localhost:3000/img/customFormula@2x.webp',
 		content:

@@ -11,6 +11,8 @@ import Home from '../page/Home';
 import Login from '../page/Login';
 import ProductManager from '../page/Manager/Products';
 import Register from '../page/Register';
+import { Cart } from '../page/Cart';
+import Person from '../page/Person';
 
 interface RouteItem {
 	path: string;
@@ -26,6 +28,16 @@ const publicRoutes: RouteItem[] = [
 	{
 		path: '/manager/products',
 		component: <ProductManager />,
+		layout: ManagerLayouts,
+	},
+	{
+		path: '/cart',
+		component: <Cart />,
+		layout: ManagerLayouts,
+	},
+	{
+		path: '/person',
+		component: <Person />,
 		layout: ManagerLayouts,
 	},
 	{ path: '/loading', component: <Loading />, layout: OnlyHeader },

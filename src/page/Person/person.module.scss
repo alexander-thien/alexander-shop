@@ -1,0 +1,21 @@
+.wraper {
+	@apply mt-7 w-[100%] h-[1000px];
+}
+.person_infor {
+	@apply flex justify-around h-[400px] w-[500px] pb-10;
+}
+
+.person_img_wraper {
+	@apply w-[300px] h-[300px] overflow-hidden rounded-[50%] p-3 bg-[#332e54];
+	& img {
+		@apply w-full h-full object-cover rounded-[50%];
+	}
+}
+
+.person_infor_wraper {
+	@apply w-[50%] h-[300px] flex flex-col justify-start;
+}
+
+.person_infor_item {
+	@apply mt-[50px] font-semibold text-[18px];
+}
