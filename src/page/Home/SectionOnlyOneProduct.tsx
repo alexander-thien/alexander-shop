@@ -5,7 +5,7 @@ function SectionOnlyOneProduct(props: productItem | any) {
 	const { addToCart } = useProductStore();
 
 	const [data, setData] = useState<productItem>({
-		id: 0,
+		id: 4,
 		name: 'Custom FormulaR for acne',
 		type: 'perfume 1',
 		price: 450,
@@ -67,7 +67,7 @@ function SectionOnlyOneProduct(props: productItem | any) {
 							fillMode={'outline'}
 							themeColor='inverse'
 							className='px-20 py-6 font-semibold text-[18px]'
-							onClick={() => addToCart(data)}
+							onClick={() => addToCart({ ...data })}
 						>
 							Add to cart
 						</Button>

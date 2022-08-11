@@ -1,82 +1,72 @@
+import axios from 'axios';
 import { makeAutoObservable, toJS } from 'mobx';
 import { createContext, useContext } from 'react';
 
+export const host = 'http://localhost:4000';
+
 export interface UserItem {
 	id: number;
-	firstName: String | string;
-	lastName: String | string;
-	email: String;
-	password: String;
+	firstName: string;
+	lastName: string;
+	email: string;
+	password: string;
 	auth?: 'true' | 'false';
-	phone?: String;
-	address?: String;
+	phone?: string;
+	address?: string;
 }
 
 class UserStore {
 	users: UserItem[] = [];
-	person: UserItem = {
-		id: 0,
-		firstName: '',
-		lastName: '',
-		email: '',
-		password: '',
-		auth: 'false',
-		address: '',
-		phone: '',
-	};
+	person: UserItem | null = null;
 
 	constructor() {
 		makeAutoObservable(this);
 	}
 
-	getUsers = () => {
+	get getUsers() {
 		return toJS(this.users);
-	};
+	}
 
-	getPerson = () => {
+	get getPerson() {
 		return toJS(this.person);
-	};
+	}
 
 	timeout = (ms: number) => {
 		return new Promise((resolve) => setTimeout(resolve, ms));
 	};
 
-	addUser = async (
-		email: String,
-		password: String,
-		firstName: String,
-		lastName: String
-	) => {
-		const user: UserItem = {
-			email,
-			password,
-			firstName,
-			lastName,
-			id: +Math.floor(Math.random() * 100),
-		};
-		await this.timeout(2000);
-		this.users.push(user);
-		console.log(this.users);
-		return true;
-	};
-
-	userLogin = async (email: String, password: String) => {
-		const usersList: UserItem[] = this.getUsers();
-		const login =
-			usersList.find(
-				(user) => user.email === email && user.password === password
-			) || false;
-		if (login) {
-			this.person = login;
-			this.person.auth = 'true';
+	registerUser = async (dataItem: any) => {
+		const user = await axios.get(`${host}/users?email=${dataItem.email}`);
+		if (user.data.length === 0) {
+			try {
+				await axios.post(`${host}/users`, {
+					...dataItem,
+				});
+				return true;
+			} catch (err) {
+				console.log(err);
+			}
+		} else {
+			return false;
 		}
-
-		await this.timeout(2000);
-		return login;
 	};
 
-	userUpdate = (newUser: UserItem) => {
-		this.person = { ...newUser };
+	loginUser = async (email: string, password: string) => {
+		const userLogin = await axios.get(`${host}/users?email=${email}`);
+		if (userLogin.data.length > 0) {
+			if (userLogin.data[0].password === password) {
+				this.person = userLogin.data[0];
+				return true;
+			}
+		}
+		return false;
+	};
+
+	updateUser = async (newUser: any) => {
+		const result = await axios.put(`${host}/users/${this.getPerson?.id}/`, {
+			...newUser,
+		});
+		return result;
 	};
 }
 

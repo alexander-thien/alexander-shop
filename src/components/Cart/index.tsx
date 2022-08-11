@@ -5,11 +5,12 @@ import { useProductStore } from '../../store/ProductStore';
 
 function CartComponent() {
 	const { getProductsFromCart } = useProductStore();
-	const productCount = getProductsFromCart().length;
 	return (
 		<div className='flex items-center relative cursor-pointer'>
 			<FiShoppingCart className='text-[28px]' />
-			{!productCount || <Badge>{productCount}</Badge>}
+			{getProductsFromCart.length > 0 && (
+				<Badge>{getProductsFromCart.length}</Badge>
+			)}
 		</div>
 	);
 }

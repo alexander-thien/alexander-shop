@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserItem, useUserStore } from '../../store/UserStore';
+import { useUserStore } from '../../store/UserStore';
 import styles from './person.module.scss';
-import { BsListUl, BsXCircleFill } from 'react-icons/bs';
-import { Field } from '@progress/kendo-react-form';
-import { InputCustom } from '../../components/InputValidator';
+import { BsXCircleFill } from 'react-icons/bs';
+import { BiEditAlt, BiSave } from 'react-icons/bi';
+import { useNotificationStore } from '../../store/NotificationStore';
 const cx = (style: any[]) => style.join(' ');
 
 function Person() {
-	const { getPerson, userUpdate } = useUserStore();
-	const user: UserItem = getPerson();
+	const { getPerson, updateUser } = useUserStore();
 	const [address, setAddress] = useState('');
 	const [phone, setPhone] = useState('');
 	const [isSetting, SetIsSetting] = useState(false);
+	const { callNotification } = useNotificationStore();
+
 	const [name, setName] = useState({
 		firstName: '',
 		lastName: '',
@@ -20,33 +21,34 @@ function Person() {
 
 	const navigate = useNavigate();
 
-	const onSetting = () => {
-		if (isSetting === false) {
-			SetIsSetting(true);
-		} else {
-			const newUser: UserItem = {
-				...user,
-				firstName: name.firstName,
-				lastName: name.lastName,
-				address: address,
-				phone: phone,
-			};
-			userUpdate(newUser);
+	const saveData = async () => {
+		const newUser = {
+			...getPerson,
+			firstName: name.firstName,
+			lastName: name.lastName,
+			address: address,
+			phone: phone,
+		};
+		const rs = await updateUser(newUser);
+
+		if (rs.statusText === 'OK') {
 			SetIsSetting(false);
+			callNotification({
+				type: 'success',
+				message: 'Update successfully',
+			});
 		}
 	};
+
+	useEffect(() => {
+		if (getPerson === null) navigate('/login');
+		console.log(getPerson);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	const closeSetting = () => {
 		SetIsSetting(false);
 	};
-
-	useEffect(() => {
-		if (user.auth === 'false') navigate('/login');
-		else {
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
 	return (
 		<div className={cx([styles.wraper])}>
 			<div className={cx([styles.person_infor, 'border-custom'])}>
@@ -55,9 +57,11 @@ function Person() {
 				</div>
 				<div className={styles.person_infor_wraper}>
 					<p className='font-semibold text-[40px] mb-5'>
-						Name:{' '}
-						{`${name.firstName || user.firstName} ${
-							name.lastName || user.lastName
+						Name:
+						{`${
+							name.firstName || (getPerson && getPerson.firstName)
+						} ${
+							name.lastName || (getPerson && getPerson.lastName)
 						}`}
 					</p>
 					{!isSetting || (
@@ -112,10 +116,19 @@ function Person() {
 					)}
 				</div>
 				<div className='flex flex-col'>
-					<BsListUl
-						onClick={onSetting}
-						className='text-[32px] cursor-pointer font-semibold hover:text-[#000]'
-					/>
+					{!isSetting && (
+						<BiEditAlt
+							onClick={() => SetIsSetting(true)}
+							className='text-[32px] cursor-pointer font-semibold hover:text-[#000]'
+						/>
+					)}
+					{isSetting && (
+						<BiSave
+							onClick={saveData}
+							className='text-[32px] cursor-pointer font-semibold hover:text-[#000]'
+						/>
+					)}
+
 					{!isSetting || (
 						<BsXCircleFill
 							className='text-[32px] cursor-pointer font-semibold hover:text-[#000] mt-10'

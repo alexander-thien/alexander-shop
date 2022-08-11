@@ -7,33 +7,33 @@ import { Loader } from '@progress/kendo-react-indicators';
 import { Avatar } from '@progress/kendo-react-layout';
 import { EmailInput, emailValidator } from '../../components/EmailValidator';
 import { InputCustom, PassValidate } from '../../components/InputValidator';
-import { UserItem, useUserStore } from '../../store/UserStore';
+import { useUserStore } from '../../store/UserStore';
 import { useNotificationStore } from '../../store/NotificationStore';
 
 function Login() {
 	let navigate = useNavigate();
-	const { userLogin } = useUserStore();
+	const { loginUser } = useUserStore();
 	const [isLoading, setIsLoading] = React.useState(false);
 
 	const { callNotification } = useNotificationStore();
 
 	const handleSubmit = async (dataItem: any) => {
 		setIsLoading(true);
-		const isLogin: UserItem | false = await userLogin(
-			dataItem.email,
-			dataItem.pass
-		);
-
+		const isLogin = await loginUser(dataItem.email, dataItem.pass);
+		setIsLoading(false);
+		console.log(isLogin);
 		if (isLogin) {
 			callNotification({
 				type: 'success',
-				message: 'Login Successfully',
+				message: 'Login success...',
 			});
 			navigate('/');
 		} else {
-			callNotification({ type: 'error', message: 'Accout not exist' });
+			callNotification({
+				type: 'error',
+				message: 'email not exist !!!',
+			});
 		}
-		setIsLoading(false);
 	};
 
 	const GotoRegister = () => {

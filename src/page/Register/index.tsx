@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { useNotificationStore } from '../../store/NotificationStore';
 
 function Register() {
-	const { addUser } = useUserStore();
+	const { registerUser } = useUserStore();
 
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -22,18 +22,20 @@ function Register() {
 
 	const handleSubmit = async (dataItem: any) => {
 		setIsLoading(true);
-		await addUser(
-			dataItem.email,
-			dataItem.pass,
-			dataItem.firstName,
-			dataItem.lastName
-		);
+		const isLogin = await registerUser(dataItem);
 		setIsLoading(false);
-		callNotification({
-			type: 'success',
-			message: 'Register Successfully',
-		});
-		navigate('/login');
+		if (isLogin) {
+			callNotification({
+				type: 'success',
+				message: 'Register Successfully',
+			});
+			navigate('/login');
+		} else {
+			callNotification({
+				type: 'error',
+				message: 'Email does exist!!!',
+			});
+		}
 	};
 
 	return (
@@ -59,7 +61,7 @@ function Register() {
 							</div>
 							<div className='mt-3'>
 								<Field
-									name={'pass'}
+									name={'password'}
 									type={'password'}
 									component={InputCustom}
 									label={'Password'}
